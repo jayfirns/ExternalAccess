@@ -1,0 +1,18 @@
+services:
+  gallery:
+    build:
+      context: /home/john5/Documents/git/Home_Network/Apache_Server
+      dockerfile: /home/john5/Documents/git/ExternalAccess/docker/gallery/Dockerfile
+    container_name: media-gallery
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      # Mount the database (so changes persist)
+      - /home/john5/Documents/git/Home_Network/Apache_Server/gallery.db:/app/gallery.db
+      # Mount media directories at paths matching the database entries (./Hentai, ./Videos)
+      - /home/john5/Documents/git/Home_Network/Apache_Server/Hentai:/app/Hentai:ro
+      - /home/john5/Documents/git/Home_Network/Apache_Server/Videos:/app/Videos:ro
+    environment:
+      - FLASK_ENV=production
+      - SECRET_KEY=change-this-to-a-random-string
