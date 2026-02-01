@@ -90,6 +90,15 @@ Since we're using Tailscale without a public domain:
 | Protocol | HTTP |
 | Access | LAN/Tailscale only |
 
+### Habit Tracker
+
+| Property | Value |
+|----------|-------|
+| Backend | 192.168.0.8:8000 |
+| Protocol | HTTP |
+| NPM Proxy | habits.johnfirnschild.com |
+| Direct Access | http://192.168.0.8:8000 |
+
 ---
 
 ## Services on Other Hosts
@@ -146,6 +155,7 @@ For simplicity with Tailscale, direct access is recommended:
 | Ubuntu Desktop | http://192.168.0.8:6080 |
 | NPM Admin | http://192.168.0.8:81 |
 | cAdvisor | http://192.168.0.8:8084 |
+| Habit Tracker | http://192.168.0.8:8000 |
 
 These URLs work from:
 - Any device on the LAN (192.168.0.x)

@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - npm.johnfirnschild.com → NPM Admin
   - portal.johnfirnschild.com → Homepage
   - metrics.johnfirnschild.com → Prometheus
+  - habits.johnfirnschild.com → Habit Tracker
 - Prometheus monitoring integration (192.168.0.111:9090)
 - Services documentation (docs/SERVICES.md)
 
