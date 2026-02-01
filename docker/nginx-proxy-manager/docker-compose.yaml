@@ -1,0 +1,75 @@
+version: "3.8"
+
+services:
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx-proxy-manager
+    restart: unless-stopped
+    ports:
+      - "80:80"      # HTTP
+      - "443:443"    # HTTPS
+      - "81:81"      # Admin UI
+    environment:
+      # Database configuration
+      DB_MYSQL_HOST: db
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: npm
+      DB_MYSQL_PASSWORD_FILE: /run/secrets/npm_db_password
+      DB_MYSQL_NAME: npm
+      # Disable telemetry
+      DISABLE_IPV6: "true"
+    secrets:
+      - npm_db_password
+    volumes:
+      - npm-data:/data
+      - npm-letsencrypt:/etc/letsencrypt
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD", "/bin/check-health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - npm_network
+
+  db:
+    image: mariadb:10.11
+    container_name: npm-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/npm_db_root_password
+      MYSQL_DATABASE: npm
+      MYSQL_USER: npm
+      MYSQL_PASSWORD_FILE: /run/secrets/npm_db_password
+    secrets:
+      - npm_db_password
+      - npm_db_root_password
+    volumes:
+      - npm-db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - npm_network
+
+volumes:
+  npm-data:
+    name: npm-data
+  npm-letsencrypt:
+    name: npm-letsencrypt
+  npm-db-data:
+    name: npm-db-data
+
+secrets:
+  npm_db_password:
+    file: ./secrets/npm_db_password.txt
+  npm_db_root_password:
+    file: ./secrets/npm_db_root_password.txt
+
+networks:
+  npm_network:
+    name: npm_network
+    driver: bridge

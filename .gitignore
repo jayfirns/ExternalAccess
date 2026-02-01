@@ -1,0 +1,43 @@
+# Secrets - NEVER commit these
+**/secrets/
+*.secret
+*.key
+*.pem
+*_password.txt
+*.env
+.env.*
+
+# Docker volumes (if using bind mounts)
+**/data/
+**/mysql/
+**/letsencrypt/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.sublime-*
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Test output
+test-results/
+coverage/
+
+# Backup files
+*.bak
+*.backup
